@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html ng-app="quoteApp">
+	<head>
+		<title>Quotation</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css"> 
+		<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css" rel='stylesheet' type='text/css'>
+		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular.min.js"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script> 
+		<link rel="stylesheet" type="text/css" href="main.css">
+		
+		<script src = "./source/underscore-min.js"></script>
+            
+		<script type="text/javascript" src=quote.js></script>
+	</head>
+
+	<body>
+		<div ng-controller="quoteCtrl">
+			<form name="form" ng-submit="save()">
+			  	<div class="container">
+		            <div class="row">
+		                <div class="col-md-6 col-md-offset-3">
+		                    <h2>Quotation</h2>
+		                    
+	                        <div class="form-group">
+	                            <label for="name"> Author:</label>
+	                            <input type="text" class="form-control" ng-model="quote.author" required maxlength="30">
+	                        </div>
+	                        <div class="form-group">
+	                            <label for="email"> Category:</label>
+	                            <select class="form-control"  ng-model="quote.category" required ng-options="option for option in category"></select>
+	                        </div>
+	                        <div class="form-group">
+	                            <label for="name"> Message:</label>
+	                            <textarea class="form-control" type="textarea" ng-model="quote.text" required placeholder="Your Text Here" maxlength="200" rows="4"></textarea>
+	                        </div>
+	                        <div class="button-conteiner" ">
+		                        <button type="submit" class="btn btn-lg btn-success pull-left btn-save" > {{ isAdd ? "Add" : "Edit" }} </button>
+		                        <button type="button" class="btn btn-lg btn-success pull-right" ng-click="cancel()"> Cancel </button>
+	                        </div>
+		                </div>
+		            </div>
+		        </div>
+			</form>
+			<div class="container quots-table" ng-if="quotes.length > 0">
+		        <div class="col-md-10 col-md-offset-1">
+		            <div class="panel panel-default panel-table">
+		              	<div class="panel-heading">
+			                <div class="row">
+			                	<div class="col col-xs-4">
+			                    	<h3 class="panel-title">Quotations</h3>
+			                  	</div>
+			                  	<div class="col-xs-6 col-xs-offset-2">
+								    <div class="input-group">
+						                <input type="text" class="form-control" ng-model="filterText.searchedText" placeholder="Filter by Author & Category">
+						                <span class="input-group-btn">
+						                    <button class="btn btn-default" type="button"><span class="glyphicon glyphicon-search"></span></button>
+						                </span>
+						            </div>
+						        </div>
+			                </div>
+		             	</div>
+		              	<div class="panel-body">
+			                <table class="table table-striped table-bordered table-list">
+			                  	<thead>
+				                    <tr>
+				                        <th><em class="fa fa-cog"></em></th>
+				                        <th class="hidden-xs">Category</th>
+				                        <th>Create Date</th>
+				                        <th>Author</th>
+				                        <th>Text</th>
+				                    </tr> 
+				                  </thead>
+			                  	<tbody>
+		                          	<tr ng-repeat="item in quotes | filter:search">
+			                            <td align="center">
+			                             	<a ng-click="edit($index)" class="btn btn-default"><em class="fa fa-pencil"></em></a>
+			                              	<a ng-click="remove($index)" class="btn btn-danger"><em class="fa fa-trash"></em></a>
+			                            </td>
+			                            <td class="hidden-xs" ng-bind="item.category"></td>
+			                            <td ng-bind="item.createDate"></td>
+			                            <td ng-bind="item.author"></td>
+			                            <td ng-bind="item.text"></td>
+		                          	</tr>
+		                        </tbody>
+			                </table>
+		              	</div>
+            		</div>
+				</div>
+			</div>	
+		</div>	
+	</body>
+</html>
